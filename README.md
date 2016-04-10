@@ -14,6 +14,8 @@ Unipants' Golfing Language (TODO: choose a better name) is a language inspired b
 
 - `O` - pop the top of stack and output a character
 
+Characters are actually integers, just that they are kept as their ASCII ordinals. So the letter `A` is actually kept in stack as 65, the ASCII ordinal for `A`.
+
 ### Push/Pop
 
 - `c` - push a 0 into the stack
