@@ -36,7 +36,7 @@ Characters are actually integers, just that they are kept as their ASCII ordinal
 
 - `*` - multiply the top of stack and second-to-top of stack
 
-- `/` - divide the top of stack by second-to-top of stack
+- `/` - divmod - divide the top of stack by second-to-top of stack, push the quotient and remainder (quotient to top of stack)
 
 ### Stack Primitives
 
