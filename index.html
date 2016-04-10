@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script src="ugl.js"></script>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h3>Code</h3>
+		<textarea id="code"></textarea>
+		<h3>Input</h3>
+		<textarea id="input"></textarea>
+		<button onclick="document.getElementById('output').value=ugl(document.getElementById('code').value, document.getElementById('input').value)">Run!</button>
+		<h3>Output</h3>
+		<textarea id="output" editable="false"></textarea>
+	</body>
+</html>

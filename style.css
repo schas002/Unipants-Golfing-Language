@@ -1,0 +1,21 @@
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	flex: 0 1 auto;
+}
+
+textarea {
+	flex: 1 0 auto;
+	width: 95%;
+	margin: 0 auto;
+}
