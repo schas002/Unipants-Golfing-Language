@@ -1,9 +1,9 @@
-var stack, nested, input, index, returns, temp,
+var stack, nested, cond, input, index, returns, temp,
 	ACTIONS = Object.freeze({
 		i: ()=>stack.push(parseInt(input[index++])),
 		I: ()=>stack.push(input.charCodeAt(index++)),
-		o: ()=>returns += stack.pop(),
-		O: ()=>returns += String.fromCharCode(stack.pop()),
+		o: ()=>(temp=stack.pop()) && stack.push(temp) && returns += temp,
+		O: ()=>(temp=stack.pop()) && stack.push(temp) && returns += String.fromCharCode(temp),
 		c: ()=>stack.push(0),
 		_: ()=>stack.pop(),
 		u: ()=>stack.push(stack.pop()+1),
@@ -15,10 +15,7 @@ var stack, nested, input, index, returns, temp,
 		'$': ()=>(temp=stack.pop()) && stack.push(temp) && stack.push(temp),
 		'%': ()=>(temp=[stack.pop(),stack.pop()]) && stack.push(temp[0]) && stack.push(temp[1]),
 		'@': ()=>stack=[stack.pop()].concat(stack),
-		'^': ()=>(temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1]),
-		/*'?': ()=>,
-		l: ()=>,
-		':': ()=>*/
+		'^': ()=>(temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1])
 	})
 
 //TODO: implement nesting
@@ -32,11 +29,25 @@ function ugl(code, finput, isNested) {
 	index = 0;
 	var fnested = '';
 	for(let  i = 0; i < code.length; i++) {
-		ACTIONS[code[i]]();
-		if (nested) {
+		if (code[i].type) {
 			fnested = nested;
-			ugl(fnested, input, true);
+			switch (code[i].type) {
+				case 'if':  //?
+					cond = stack.pop()
+					stack.push(cond)
+					if (cond)
+						ugl(fnested, input, true);
+					break;
+				case 'while': //l
+					do {
+						ugl(fnested, input, true);
+						cond = stack.pop()
+						stack.push(cond)
+					} while (cond);
+					break;
+			}
 		}
+		ACTIONS[code[i]]();
 	}
 	return returns;
 }
