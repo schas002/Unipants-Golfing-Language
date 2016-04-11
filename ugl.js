@@ -26,19 +26,19 @@ var handle, iter, stack, nested, cond, input, index, returns, temp,
 		Reverse: 'IlI:_lO:|Hello, World!',
 		Hello_World: `\
 cuu$$$u$****$ # create H
-O			 # H
+O             # H
 cuuuuu$u*d+$O # e
 cuu$$**d+$$OO # ll
-$$uuu$$$$O	# o
+$$uuu$$$$O    # o
 cuu$$$$****$  # create ' '
-cuu$$u**+O	# ,
-$@O_		  # ' ', add ' ' to end
+cuu$$u**+O    # ,
+$@O_          # ' ', add ' ' to end
 cuu$$$u***-O  # W
-O			 # o
-uuuO		  # r
-O			 # l
-cuu$$**-O	 # d
-uO			# !
+O             # o
+uuuO          # r
+O             # l
+cuu$$**-O     # d
+uO            # !
 |`
 	}),
 	Type = Object.freeze({
