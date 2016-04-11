@@ -6,24 +6,40 @@ var handle, iter, stack, nested, cond, input, index, returns, temp,
 		o: ()=>stack.length && (returns += stack.pop()),
 		O: ()=>stack.length && (returns += String.fromCharCode(stack.pop())),
 		c: ()=>stack.push(0),
-		_: ()=>stack.pop(),
-		u: ()=>stack[stack.length - 1]++,
-		d: ()=>stack[stack.length - 1]--,
-		'+': ()=>stack.push(stack.pop()+stack.pop()),
-		'-': ()=>stack.push(-stack.pop()+stack.pop()),
-		'*': ()=>stack.push(stack.pop()*stack.pop()),
-		'/': ()=>(temp=[stack.pop(), stack.pop()]) && stack.push(temp[1]%temp[0]) && stack.push(parseInt(temp[1]/temp[0])),
-		'$': ()=>(temp=stack.pop()) && stack.push(temp) && stack.push(temp),
-		'%': ()=>(temp=[stack.pop(),stack.pop()]) && stack.push(temp[0]) && stack.push(temp[1]),
-		'@': ()=>stack=[stack.pop()].concat(stack),
-		'^': ()=>(temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1])
+		_: ()=>stack.length && stack.pop(),
+		u: ()=>stack.length && stack[stack.length - 1]++,
+		d: ()=>stack.length && stack[stack.length - 1]--,
+		'+': ()=>stack.length > 1 && stack.push(stack.pop()+stack.pop()),
+		'-': ()=>stack.length > 1 && stack.push(-stack.pop()+stack.pop()),
+		'*': ()=>stack.length > 1 && stack.push(stack.pop()*stack.pop()),
+		'/': ()=>stack.length > 1 && stack[stack.length - 1] && (temp=[stack.pop(), stack.pop()]) && stack.push(temp[1]%temp[0]) && stack.push(parseInt(temp[1]/temp[0])),
+		'$': ()=>stack.length && (temp=stack.pop()) && stack.push(temp) && stack.push(temp),
+		'%': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[0]) && stack.push(temp[1]),
+		'@': ()=>stack.length && (stack=[stack.pop()].concat(stack)),
+		'^': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1])
 	}),
 	ACTION_KEYS = [],
 	EXAMPLES = Object.freeze({
 		'Select Example': '',
 		Countdown: 'il$od:|1', //n_countdown:'ili$l%$o%d:_d:'
-		Cat: 'IlOI:|Hello, world!',
-		Reverse: 'IlI:_lO:|Hello, world!'
+		Cat: 'IlOI:|Hello, World!',
+		Reverse: 'IlI:_lO:|Hello, World!',
+		Hello_World: `\
+cuu$$$u$****$ # create H
+O			 # H
+cuuuuu$u*d+$O # e
+cuu$$**d+$$OO # ll
+$$uuu$$$$O	# o
+cuu$$$$****$  # create ' '
+cuu$$u**+O	# ,
+$@O_		  # ' ', add ' ' to end
+cuu$$$u***-O  # W
+O			 # o
+uuuO		  # r
+O			 # l
+cuu$$**-O	 # d
+uO			# !
+|`
 	}),
 	Type = Object.freeze({
 		IF: 0,
@@ -34,7 +50,9 @@ for (let i in ACTIONS)
 	ACTIONS.hasOwnProperty(i) && ACTION_KEYS.push(i);
 
 function ugl(code, finput) {
-	if (!code || !code.length) return 'Error: No code';
+	if (!code || !code.length) return ['', 'Error: No code'];
+	if (code && code.replace) code = code.replace(/\s*#.+$|\s+/gm, '');
+	var sanitized = code;
 	if (finput !== true) {
 		stack = [];
 		input = finput;
@@ -43,10 +61,10 @@ function ugl(code, finput) {
 		index = 0;
 	}
 	var tempcode = nest(code);
-	if (!tempcode || !tempcode.length) return 'Error: Open loop\n' + code + '\n' + ' '.repeat(tempcode) + '^';
+	if (!tempcode || !tempcode.length) return ['', 'Error: Open loop\n' + code + '\n' + ' '.repeat(tempcode) + '^'];
 	else code = tempcode;
 	for(let i = 0; i < code.length; i++) {
-		if (iter++ > maxi) return 'Error: Too many iterations';
+		if (iter++ > maxi) return ['', 'Error: Too many iterations'];
 		if (code[i].type !== undefined)
 			switch (code[i].type) {
 				case Type.IF:
@@ -57,15 +75,15 @@ function ugl(code, finput) {
 					var ncode = code[i];
 					if (stack[stack.length - 1]) do {
 						ugl(ncode, true);
-						if (iter++ > maxi) return 'Error: Too many iterations';
+						if (iter++ > maxi) return ['', 'Error: Too many iterations'];
 					} while (stack[stack.length - 1]);
 					break;
 			}
 		else if (ACTION_KEYS.includes(code[i]))
 			ACTIONS[code[i]]();
-		else return 'Error: Invalid character: ' + code[i]
+		else return ['', 'Error: Invalid character: ' + code[i]]
 	}
-	return returns;
+	return [sanitized, returns];
 }
 
 function nest(code) {
@@ -133,5 +151,15 @@ function loadExamples($el) {
 			option.innerText = prop.replace('_', ' ');
 			$el.appendChild(option);
 		}
+	}
+}
+
+//from http://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
+function copy(text) {
+	var range,
+		selection;	
+	if (text.select) {
+		text.select();
+		document.execCommand('copy');
 	}
 }

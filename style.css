@@ -17,12 +17,19 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 10px 0;
 	padding: 0;
 	flex: 0 1 auto;
+	display: inline-flex;
+}
+
+div {
+	flex: 0 1 auto;
+	display: inline;
 }
 
 button {
 	width: fit-content;
 	width: -moz-fit-content;
 	width: -webkit-fit-content;
+	display: block;
 }
 
 textarea {
@@ -34,10 +41,56 @@ textarea {
 	padding: 0;
 }
 
-textarea:disabled {
-	background: #F8F8F8
+textarea:-moz-read-only {
+	background: #F8F8F8;
+	color: #888;
+	flex: 0 1 auto;
+}
+
+textarea:read-only {
+	background: #F8F8F8;
+	color: #888;
+	flex: 0 1 auto;
 }
 
 label, select {
 	display: inline-block;
+}
+
+#popup-border, #popup {
+	height: 100%;
+	position: fixed;
+}
+
+#popup-border {
+	margin: 0;
+	top: 0;
+	width: 100%;
+	padding: 0 auto;
+	z-index: 1;
+	background: rgba(0, 0, 0, 0.9);
+}
+
+#popup {
+	width: 50%;
+	background: #FFF;
+	padding: 10px;
+	margin: 0 25%;
+	z-index: 2;
+	overflow: auto;
+}
+
+.copy {
+	padding: 3px 5px;
+	margin: auto 10px;
+	border: solid #BBB 1px;
+	border-radius: 5px;
+}
+
+.copy:before {
+	content: '\1f4cb';
+}
+
+.copy:hover {
+	background: #EEE;
 }
