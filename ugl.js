@@ -1,7 +1,7 @@
 var handle, iter, stack, nested, cond, input, index, returns, temp,
 	maxi = 1000,
 	ACTIONS = Object.freeze({
-		i: ()=>stack.push(input[index]?parseInt(input[index++]):0),
+		i: ()=>input[index]?(s=>stack.push(parseInt(s))&(index+=s.length))(/^[0-9]+/.exec(input.slice(index))):stack.push(0),
 		I: ()=>stack.push(input[index]?input.charCodeAt(index++):0),
 		o: ()=>stack.length && (returns += stack.pop()),
 		O: ()=>stack.length && (returns += String.fromCharCode(stack.pop())),
@@ -9,10 +9,10 @@ var handle, iter, stack, nested, cond, input, index, returns, temp,
 		_: ()=>stack.length && stack.pop(),
 		u: ()=>stack.length && stack[stack.length - 1]++,
 		d: ()=>stack.length && stack[stack.length - 1]--,
-		'+': ()=>stack.length > 1 && stack.push(stack.pop()+stack.pop()),
-		'-': ()=>stack.length > 1 && stack.push(-stack.pop()+stack.pop()),
-		'*': ()=>stack.length > 1 && stack.push(stack.pop()*stack.pop()),
-		'/': ()=>stack.length > 1 && stack[stack.length - 1] && (temp=[stack.pop(), stack.pop()]) && stack.push(temp[1]%temp[0]) && stack.push(parseInt(temp[1]/temp[0])),
+		'+': ()=>stack.push(stack.length > 1 ? stack.pop()+stack.pop() : 0),
+		'-': ()=>stack.push(stack.length > 1 ? -stack.pop()+stack.pop() : 0),
+		'*': ()=>stack.push(stack.length > 1 ? stack.pop()*stack.pop() : 0),
+		'/': ()=>stack.length > 1 ? (stack[stack.length - 1]?((temp=[stack.pop(), stack.pop()]) && stack.push(temp[1]%temp[0]) && stack.push(parseInt(temp[1]/temp[0]))):0) : stack.push(0),
 		'$': ()=>stack.length && (temp=stack.pop()) && stack.push(temp) && stack.push(temp),
 		'%': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[0]) && stack.push(temp[1]),
 		'@': ()=>stack.length && (stack=[stack.pop()].concat(stack)),
@@ -21,7 +21,9 @@ var handle, iter, stack, nested, cond, input, index, returns, temp,
 	ACTION_KEYS = [],
 	EXAMPLES = Object.freeze({
 		'Select Example': '',
-		Countdown: 'il$od:|1', //n_countdown:'ili$l%$o%d:_d:'
+		Countdown: 'il$od:|10',
+		N_Countdown:'il$l%$o%d:_d:|10',
+		Factorial: 'il$d:_l*:_o|10',
 		Cat: 'IlOI:|Hello, World!',
 		Reverse: 'IlI:_lO:|Hello, World!',
 		Hello_World: `\
@@ -51,7 +53,7 @@ for (let i in ACTIONS)
 
 function ugl(code, finput) {
 	if (!code || !code.length) return ['', 'Error: No code'];
-	if (code && code.replace) code = code.replace(/\s*#.+$|\s+/gm, '');
+	if (code && code.replace) code = code.replace(/#.+$|\s+/gm, '');
 	var sanitized = code;
 	if (finput !== true) {
 		stack = [];
@@ -59,29 +61,29 @@ function ugl(code, finput) {
 		returns = '';
 		iter = 0;
 		index = 0;
+		var tempcode = nest(code);
+		if (!tempcode || !tempcode.length) return ['', 'Error: Open loop\n' + code + '\n' + ' '.repeat(tempcode) + '^'];
+		else code = tempcode;
 	}
-	var tempcode = nest(code);
-	if (!tempcode || !tempcode.length) return ['', 'Error: Open loop\n' + code + '\n' + ' '.repeat(tempcode) + '^'];
-	else code = tempcode;
-	for(let i = 0; i < code.length; i++) {
+	for(let instruction of code) {
+		console.log('code', code, 'stack', stack);
 		if (iter++ > maxi) return ['', 'Error: Too many iterations'];
-		if (code[i].type !== undefined)
-			switch (code[i].type) {
+		if (instruction.type !== undefined)
+			switch (instruction.type) {
 				case Type.IF:
 					if (stack[stack.length - 1])
 						ugl(code[i], true);
 					break;
 				case Type.WHILE:
-					var ncode = code[i];
 					if (stack[stack.length - 1]) do {
-						ugl(ncode, true);
+						ugl(instruction, true);
 						if (iter++ > maxi) return ['', 'Error: Too many iterations'];
 					} while (stack[stack.length - 1]);
 					break;
 			}
-		else if (ACTION_KEYS.includes(code[i]))
-			ACTIONS[code[i]]();
-		else return ['', 'Error: Invalid character: ' + code[i]]
+		else if (ACTION_KEYS.includes(instruction))
+			ACTIONS[instruction]();
+		else return ['', 'Error: Invalid character: ' + instruction]
 	}
 	return [sanitized, returns];
 }
