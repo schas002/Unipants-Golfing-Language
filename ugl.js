@@ -12,8 +12,8 @@ var handle, iter, stack, nested, cond, input, index, returns, temp,
 		'+': ()=>stack.push(stack.length > 1 ? stack.pop()+stack.pop() : 0),
 		'-': ()=>stack.push(stack.length > 1 ? -stack.pop()+stack.pop() : 0),
 		'*': ()=>stack.push(stack.length > 1 ? stack.pop()*stack.pop() : 0),
-		'/': ()=>stack.length > 1 ? (stack[stack.length - 1]?((temp=[stack.pop(), stack.pop()]) && stack.push(temp[1]%temp[0]) && stack.push(parseInt(temp[1]/temp[0]))):0) : stack.push(0),
-		'$': ()=>stack.length && (temp=stack.pop()) && stack.push(temp) && stack.push(temp),
+		'/': ()=>stack.length > 1 ? (temp=[stack.pop(), stack.pop()]) && (temp[0] ? (stack.push(temp[1]%temp[0]) && stack.push(parseInt(temp[1]/temp[0]))): stack.push(0)) : stack.push(0),
+		'$': ()=>stack.length && stack.push(stack[stack.length - 1]),
 		'%': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[0]) && stack.push(temp[1]),
 		'@': ()=>stack.length && (stack=[stack.pop()].concat(stack)),
 		'^': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1])
@@ -27,20 +27,19 @@ var handle, iter, stack, nested, cond, input, index, returns, temp,
 		Cat: 'IlOI:|Hello, World!',
 		Reverse: 'IlI:_lO:|Hello, World!',
 		Hello_World: `\
-cuu$$$u$****$ # create H
-O             # H
-cuuuuu$u*d+$O # e
-cuu$$**d+$$OO # ll
-$$uuu$$$$O    # o
-cuu$$$$****$  # create ' '
-cuu$$u**+O    # ,
-$@O_          # ' ', add ' ' to end
-cuu$$$u***-O  # W
-O             # o
-uuuO          # r
-O             # l
-cuu$$**-O     # d
-uO            # !
+cuu$$$$$u$$@****O # H
+@+*$*$u$O         # e
+cuu$$**d+$$OO     # ll
+$uuu$$$$O         # o
+cuu$$$$****$      # create ' '
+cuu$$u**+O        # ,
+$@O_              # ' ', add ' ' to end
+cuu$$$u***-O      # W
+O                 # o
+uuuO              # r
+O                 # l
+O                 # d
+uO                # !\
 |`
 	}),
 	Type = Object.freeze({
@@ -66,18 +65,18 @@ function ugl(code, finput) {
 		else code = tempcode;
 	}
 	for(let instruction of code) {
-		console.log('code', code, 'stack', stack);
-		if (iter++ > maxi) return ['', 'Error: Too many iterations'];
+		console.log('stack', stack);
+		if (iter++ > maxi) return ['', 'Error: Maximum iterations exceeded'];
 		if (instruction.type !== undefined)
 			switch (instruction.type) {
 				case Type.IF:
 					if (stack[stack.length - 1])
-						ugl(code[i], true);
+						ugl(instruction, true);
 					break;
 				case Type.WHILE:
 					if (stack[stack.length - 1]) do {
 						ugl(instruction, true);
-						if (iter++ > maxi) return ['', 'Error: Too many iterations'];
+						if (iter++ > maxi) return ['', 'Error: Maximum iterations exceeded'];
 					} while (stack[stack.length - 1]);
 					break;
 			}
