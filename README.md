@@ -56,7 +56,15 @@ Characters are actually integers, just that they are kept as their ASCII ordinal
 
 - `:` ends both nested structures.
 
-### Example
+### Registers
+
+- `r` - load the value in current register
+
+- `R` - save the value in current register
+
+- `s` - set current register number to top of stack
+
+## Example
 
 Counts down from n to 1.
 
