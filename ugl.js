@@ -1,4 +1,5 @@
-var handle, iter, stack, nested, cond, input, index, returns, temp,
+var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
+	registers = [],
 	maxi = 1000,
 	ACTIONS = Object.freeze({
 		i: ()=>input[index]?(s=>stack.push(parseInt(s))&(index+=s.length))(/^[0-9]+/.exec(input.slice(index))):stack.push(0),
@@ -16,7 +17,10 @@ var handle, iter, stack, nested, cond, input, index, returns, temp,
 		'$': ()=>stack.length && stack.push(stack[stack.length - 1]),
 		'%': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[0]) && stack.push(temp[1]),
 		'@': ()=>stack.length && (stack=[stack.pop()].concat(stack)),
-		'^': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1])
+		'^': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1]),
+		r: ()=>stack.push(registers[rindex]||0),
+		R: ()=>registers[rindex]=(stack.pop()||0),
+		s: ()=>rindex=(stack.pop()||0)
 	}),
 	ACTION_KEYS = [],
 	EXAMPLES = Object.freeze({
@@ -56,9 +60,11 @@ function ugl(code, finput) {
 	var sanitized = code;
 	if (finput !== true) {
 		stack = [];
+		registers = [];
 		input = finput;
 		returns = '';
 		iter = 0;
+		rindex = 0;
 		index = 0;
 		var tempcode = nest(code);
 		if (!tempcode || !tempcode.length) return ['', 'Error: Open loop\n' + code + '\n' + ' '.repeat(tempcode) + '^'];
