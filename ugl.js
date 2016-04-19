@@ -141,7 +141,7 @@ function nest(code) {
 				let newchar = newcode.splice(i + 1, 1)[0];
 				if (!newchar) break;
 				newcode[i].push(newchar);
-				len -= newchar.length || 1;
+				len -= newchar instanceof Array ? newchar.length + 2 : 1;
 				newcode[i].type = item.type;
 			}
 			newcode.splice(i + 1, 1);
