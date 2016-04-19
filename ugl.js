@@ -44,7 +44,20 @@ uuuO              # r
 O                 # l
 O                 # d
 uO                # !\
-|`
+|`,
+		Prime_Checker: `\
+i$ 
+cu #6 1 
+^d^-l #while not equal 
+_ #6 1 
+u #6 2 
+^^/% #6 2 3 0 
+cu%?%d%:_ #6 2 3 "true" 
+?coc$d$$: #print false; return -1 
+__ #else: 6 2 
+^d^-:_ #while not equal 
+u? #if stack.pop() != -1: 
+cuo: #print true|43`
 	}),
 	Type = Object.freeze({
 		IF: 0,
