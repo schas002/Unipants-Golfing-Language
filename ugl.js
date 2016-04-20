@@ -113,7 +113,8 @@ function ugl(code, finput) {
 		else if (ACTION_KEYS.includes(instruction))
 			ACTIONS[instruction]();
 		else if (!Strict)
-			sanitized = sanitized.replace(new RegExp(instruction, 'g'), '');
+			if (typeof sanitized === 'string')
+				sanitized = sanitized.replace(new RegExp(instruction, 'g'), '');
 		else
 			return ['', 'Error: Invalid character: ' + instruction];
 	}
