@@ -15,7 +15,8 @@
 				document.getElementById('input').value=parts[1];
 			}"></select>
 		</div>
-		<textarea id="code"></textarea>
+		<div><span id="bytecount">0</span> bytes</div>
+		<textarea id="code" oninput="document.getElementById('bytecount').innerHTML=event.target.value.length"></textarea>
 		<h3>Input</h3>
 		<textarea id="input"></textarea>
 		<button onclick="document.getElementById('output').value='';
