@@ -1,4 +1,5 @@
 var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
+	Strict = false,
 	skipNewlines = function() {
 		while (input[index] === '\n')
 			index++;
@@ -111,7 +112,10 @@ function ugl(code, finput) {
 			}
 		else if (ACTION_KEYS.includes(instruction))
 			ACTIONS[instruction]();
-		else return ['', 'Error: Invalid character: ' + instruction]
+		else if (!Strict)
+			sanitized = sanitized.replace(new RegExp(instruction, 'g'), '');
+		else
+			return ['', 'Error: Invalid character: ' + instruction];
 	}
 	return [sanitized, returns];
 }

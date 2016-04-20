@@ -5,7 +5,7 @@
 		<script src="ugl.js"></script>
 		<link rel="stylesheet" href="style.css">
 	</head>
-	<body onload="loadExamples(document.getElementById('examples'))">
+	<body onload="loadExamples(document.getElementById('examples')); document.getElementById('strict_mode').checked=localStorage.getItem('strict') === '0' ? false : true">
 		<button onclick="document.getElementById('popup-border').style.display='block'">Help</button>
 		<h3>Code</h3>
 		<div>
@@ -21,6 +21,10 @@
 		<textarea id="input"></textarea>
 		<button onclick="document.getElementById('output').value='';
 			[document.getElementById('sanitized').value, document.getElementById('output').value]=ugl(document.getElementById('code').value, document.getElementById('input').value);">Run!</button>
+		<div>
+			Strict mode: 
+			<input id="strict_mode" type="checkbox" onchange="localStorage.setItem('strict', event.target.checked ? '1' : '0');Strict=event.target.checked"></div>
+		</div>
 		<div>
 			Maximum number of iterations: 
 			<input oninput="maxi=document.getElementById('maxi_num').value=event.target.value" id="maxi_range" type="range" min="0" max="10000" value="1000">
