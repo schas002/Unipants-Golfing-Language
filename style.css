@@ -48,13 +48,11 @@ textarea {
 textarea:-moz-read-only {
 	background: #F8F8F8;
 	color: #888;
-	flex: 0 1 auto;
 }
 
 textarea:read-only {
 	background: #F8F8F8;
 	color: #888;
-	flex: 0 1 auto;
 }
 
 label, select {

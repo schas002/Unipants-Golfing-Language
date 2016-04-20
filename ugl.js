@@ -37,20 +37,21 @@ var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
 		Reverse: 'IlI:_lO:|Hello, World!',
 		Print_in_binary: 'ilcuu/%u%:_ldo:|65536',
 		Print_in_base: 'iRilr/%u%:_ldo:|3\n729',
+		Fibonacci: 'ccui$Rl_$o%^+rd$R:|',
 		Hello_World: `\
 cuu$$$$$u$$@****O # H
-@+*$*$u$O		 # e
-cuu$$**d+$$OO	 # ll
-$uuu$$$$O		 # o
-cuu$$$$****$	  # create ' '
-cuu$$u**+O		# ,
-$@O_			  # ' ', add ' ' to end
+@+*$*$u$O         # e
+cuu$$**d+$$OO     # ll
+$uuu$$$$O         # o
+cuu$$$$****$      # create ' '
+cuu$$u**+O        # ,
+$@O_              # ' ', add ' ' to end
 cuu$$$u***-O	  # W
-O				 # o
-uuuO			  # r
-O				 # l
-O				 # d
-uO				# !\
+O                 # o
+uuuO              # r
+O                 # l
+O                 # d
+uO                # !\
 |`,
 		Prime_Checker: `\
 i$ 
@@ -92,7 +93,7 @@ function ugl(code, finput) {
 	}
 	for(let instruction of code) {
 		console.log('stack', stack);
-		if (iter++ > maxi) return ['', 'Error: Maximum iterations exceeded'];
+		if (iter++ > maxi) return [sanitized, returns + '...\nError: Maximum iterations exceeded'];
 		if (instruction.type !== undefined)
 			switch (instruction.type) {
 				case Type.IF:
@@ -102,7 +103,7 @@ function ugl(code, finput) {
 				case Type.WHILE:
 					if (stack[stack.length - 1]) do {
 						ugl(instruction, true);
-						if (iter++ > maxi) return ['', 'Error: Maximum iterations exceeded'];
+						if (iter++ > maxi) return [sanitized, returns + '...\nError: Maximum iterations exceeded'];
 					} while (stack[stack.length - 1]);
 					break;
 			}
@@ -175,7 +176,7 @@ function loadExamples($el) {
 		if (EXAMPLES.hasOwnProperty(prop)) {
 			let option = document.createElement('option');
 			option.value = EXAMPLES[prop];
-			option.innerText = prop.replace('_', ' ');
+			option.innerText = prop.replace(/_/g, ' ');
 			$el.appendChild(option);
 		}
 	}
