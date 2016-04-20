@@ -37,7 +37,8 @@ var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
 		Reverse: 'IlI:_lO:|Hello, World!',
 		Print_in_binary: 'ilcuu/%u%:_ldo:|65536',
 		Print_in_base: 'iRilr/%u%:_ldo:|3\n729',
-		Fibonacci: 'ccui$Rl_$o%^+rd$R:|',
+		Fibonacci: 'ccui$Rl_$o%^+rd$R:|5',
+		Truth_Machine: 'i?l$o::c=?do:|1'
 		Hello_World: `\
 cuu$$$$$u$$@****O # H
 @+*$*$u$O         # e
