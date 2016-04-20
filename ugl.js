@@ -36,7 +36,7 @@ var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
 		Cat: 'IlOI:|Hello, World!',
 		Reverse: 'IlI:_lO:|Hello, World!',
 		Print_in_binary: 'ilcuu/%u%:_ldo:|65536',
-		Print_in_base: 'iRilr/%u%:_ldo:|3\n729'
+		Print_in_base: 'iRilr/%u%:_ldo:|3\n729',
 		Hello_World: `\
 cuu$$$$$u$$@****O # H
 @+*$*$u$O		 # e
