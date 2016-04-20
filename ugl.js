@@ -163,13 +163,14 @@ function nest(code) {
 		let item = newcode[i];
 		if (item.len) {
 			let len = item.len;
-			newcode[i] = []
+			newcode[i] = [];
+			newcode[i].len = len;
 			while (len) {
 				if (iter++ > maxi) return 0;
 				let newchar = newcode.splice(i + 1, 1)[0];
 				if (!newchar) break;
 				newcode[i].push(newchar);
-				len -= newchar instanceof Array ? newchar.length + 2 : 1;
+				len -= newchar.len ? newchar.len + 2 : 1;
 				newcode[i].type = item.type;
 			}
 			newcode.splice(i + 1, 1);
