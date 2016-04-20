@@ -1,27 +1,31 @@
 var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
+	skipNewlines = function() {
+		while (input[index] === '\n')
+			index++;
+	},
 	registers = [],
 	maxi = 1000,
 	ACTIONS = Object.freeze({
-		i: ()=>input[index]?(s=>stack.push(parseInt(s))&(index+=s.length))(/^-[0-9]+/.exec(input.slice(index))):stack.push(0),
-		I: ()=>stack.push(input[index]?input.charCodeAt(index++):0),
-		o: ()=>stack.length && (returns += stack.pop()),
-		O: ()=>stack.length && (returns += String.fromCharCode(stack.pop())),
-		c: ()=>stack.push(0),
-		_: ()=>stack.length && stack.pop(),
-		u: ()=>stack.length && stack[stack.length - 1]++,
-		d: ()=>stack.length && stack[stack.length - 1]--,
-		'=': ()=>stack.push(+(stack.pop() === stack.pop())),
-		'+': ()=>stack.push(stack.length > 1 ? stack.pop()+stack.pop() : 0),
-		'-': ()=>stack.push(stack.length > 1 ? -stack.pop()+stack.pop() : 0),
-		'*': ()=>stack.push(stack.length > 1 ? stack.pop()*stack.pop() : 0),
-		'/': ()=>stack.length > 1 ? (temp=[stack.pop(), stack.pop()]) && (temp[0] ? (stack.push(temp[1]%temp[0]) && stack.push(parseInt(temp[1]/temp[0]))): stack.push(0)) : stack.push(0),
-		'$': ()=>stack.length && stack.push(stack[stack.length - 1]),
-		'%': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[0]) && stack.push(temp[1]),
-		'@': ()=>stack.length && (stack=[stack.pop()].concat(stack)),
-		'^': ()=>stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1]),
-		r: ()=>stack.push(registers[rindex]||0),
-		R: ()=>registers[rindex]=(stack.pop()||0),
-		s: ()=>rindex=(stack.pop()||0)
+		i: function() {skipNewlines()||input[index]?(function(s){stack.push(parseInt(s))&(index+=s.length)})(/^-?[0-9]+/.exec(input.slice(index))):stack.push(0)},
+		I: function() {skipNewlines()||stack.push(input[index]?input.charCodeAt(index++):0)},
+		o: function() {stack.length && (returns += stack.pop())},
+		O: function() {stack.length && (returns += String.fromCharCode(stack.pop()))},
+		c: function() {stack.push(0)},
+		_: function() {stack.length && stack.pop()},
+		u: function() {stack.length && stack[stack.length - 1]++},
+		d: function() {stack.length && stack[stack.length - 1]--},
+		'=': function() {stack.push(+(stack.pop() === stack.pop()))},
+		'+': function() {stack.push(stack.length > 1 ? stack.pop()+stack.pop() : 0)},
+		'-': function() {stack.push(stack.length > 1 ? -stack.pop()+stack.pop() : 0)},
+		'*': function() {stack.push(stack.length > 1 ? stack.pop()*stack.pop() : 0)},
+		'/': function() {stack.length > 1 ? (temp=[stack.pop(), stack.pop()]) && (temp[0] ? (stack.push(temp[1]%temp[0]) && stack.push(parseInt(temp[1]/temp[0]))): stack.push(0)) : stack.push(0)},
+		'$': function() {stack.length && stack.push(stack[stack.length - 1])},
+		'%': function() {stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[0]) && stack.push(temp[1])},
+		'@': function() {stack.length && (stack=[stack.pop()].concat(stack))},
+		'^': function() {stack.length > 1 && (temp=[stack.pop(),stack.pop()]) && stack.push(temp[1]) && stack.push(temp[0]) && stack.push(temp[1])},
+		r: function() {stack.push(registers[rindex]||0)},
+		R: function() {registers[rindex]=(stack.pop()||0)},
+		s: function() {rindex=(stack.pop()||0)}
 	}),
 	ACTION_KEYS = [],
 	EXAMPLES = Object.freeze({
@@ -32,20 +36,21 @@ var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
 		Cat: 'IlOI:|Hello, World!',
 		Reverse: 'IlI:_lO:|Hello, World!',
 		Print_in_binary: 'ilcuu/%u%:_ldo:|65536',
+		Print_in_base: 'iRilr/%u%:_ldo:|3\n729'
 		Hello_World: `\
 cuu$$$$$u$$@****O # H
-@+*$*$u$O         # e
-cuu$$**d+$$OO     # ll
-$uuu$$$$O         # o
-cuu$$$$****$      # create ' '
-cuu$$u**+O        # ,
-$@O_              # ' ', add ' ' to end
-cuu$$$u***-O      # W
-O                 # o
-uuuO              # r
-O                 # l
-O                 # d
-uO                # !\
+@+*$*$u$O		 # e
+cuu$$**d+$$OO	 # ll
+$uuu$$$$O		 # o
+cuu$$$$****$	  # create ' '
+cuu$$u**+O		# ,
+$@O_			  # ' ', add ' ' to end
+cuu$$$u***-O	  # W
+O				 # o
+uuuO			  # r
+O				 # l
+O				 # d
+uO				# !\
 |`,
 		Prime_Checker: `\
 i$ 
