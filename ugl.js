@@ -2,7 +2,7 @@ var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
 	registers = [],
 	maxi = 1000,
 	ACTIONS = Object.freeze({
-		i: ()=>input[index]?(s=>stack.push(parseInt(s))&(index+=s.length))(/^[0-9]+/.exec(input.slice(index))):stack.push(0),
+		i: ()=>input[index]?(s=>stack.push(parseInt(s))&(index+=s.length))(/^-[0-9]+/.exec(input.slice(index))):stack.push(0),
 		I: ()=>stack.push(input[index]?input.charCodeAt(index++):0),
 		o: ()=>stack.length && (returns += stack.pop()),
 		O: ()=>stack.length && (returns += String.fromCharCode(stack.pop())),
@@ -31,6 +31,7 @@ var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
 		Factorial: 'il$d:_l*:_o|10',
 		Cat: 'IlOI:|Hello, World!',
 		Reverse: 'IlI:_lO:|Hello, World!',
+		Print_in_binary: 'ilcuu/%u%:_ldo:|65536',
 		Hello_World: `\
 cuu$$$$$u$$@****O # H
 @+*$*$u$O         # e
