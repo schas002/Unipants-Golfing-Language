@@ -20,7 +20,8 @@
 		<h3>Input</h3>
 		<textarea id="input"></textarea>
 		<button onclick="document.getElementById('output').value='';
-			[document.getElementById('sanitized').value, document.getElementById('output').value]=ugl(document.getElementById('code').value, document.getElementById('input').value);">Run!</button>
+			[document.getElementById('sanitized').value, document.getElementById('output').value]=ugl(document.getElementById('code').value, document.getElementById('input').value);
+			document.getElementById('sanitized_bytecount').innerHTML = document.getElementById('sanitized').value.length">Run!</button>
 		<div>
 			Strict mode: 
 			<input id="strict_mode" type="checkbox" onchange="localStorage.setItem('strict', event.target.checked ? '1' : '0');Strict=event.target.checked"></div>
@@ -31,6 +32,7 @@
 			<input oninput="maxi=document.getElementById('maxi_range').value=event.target.value" id="maxi_num" type="number" min="0" max="10000" value="1000">
 		</div>
 		<div><h3 class="inline-flex">Sanitized</h3><span class="copy" onclick="copy(document.getElementById('sanitized'))"></span></div>
+		<div><span id="sanitized_bytecount">0</span> bytes</div>
 		<textarea id="sanitized" readonly="true"></textarea>
 		<div><h3 class="inline-flex">Output</h3><span class="copy" onclick="copy(document.getElementById('output'))"></span></div>
 		<textarea id="output" readonly="true"></textarea>
@@ -65,8 +67,8 @@
 				l - while: the nested structure runs while the top of stack is nonzero<br/>
 				: - ends both nested structures
 				<h4>Registers</h4>
-				r - push the value in current register to stack
-				R - pop top of stack to the value in current register
+				r - push the value in current register to stack<br/>
+				R - pop top of stack to the value in current register<br/>
 				s - set current register number to number popped off stack
 				<h4>Example</h4>
 				Counts down from n to 1<br/>

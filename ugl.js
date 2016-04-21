@@ -40,6 +40,7 @@ var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
 		Print_in_base: 'iRilr/%u%:_ldo:|3\n729',
 		Fibonacci: 'ccui$Rl_$o%^+rd$R:|5',
 		Fancy_Fibonacci: 'ccui$Rl_$ocuu$$*$**O%^+rd$R:|5',
+		Ackermann: 'iiRuldr%l%lR$d%rd:u%d:%+uRu:ro|2\n5',
 		Truth_Machine: 'i?l$o::c=?do:|1',
 		Hello_World: `\
 cuu$$$$$u$$@****O # H
