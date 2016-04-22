@@ -9,7 +9,7 @@
 		<button onclick="document.getElementById('popup-border').style.display='block'">Help</button>
 		<h3>Code</h3>
 		<div>
-			<select id="examples" onclick="if(event.target.value){
+			<select id="examples" onchange="if(event.target.value){
 				let parts=event.target.value.split('|');
 				document.getElementById('code').value=parts[0];
 				document.getElementById('input').value=parts[1];

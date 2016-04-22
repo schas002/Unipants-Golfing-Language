@@ -142,8 +142,8 @@ function nest(code) {
 		}
 	}
 	var difference = nests.length - ends.length;
-	if (difference > 0) return nests[difference].index;
-	else if (difference < 0) return ends[difference];
+	if (difference > 0) return nests[difference - 1].index;
+	else if (difference < 0) return ends[difference - 1];
 	while (ends.length) {
 		let end = ends[0];
 		for (let i = nests.length - 1; nests[i]; i--) {
