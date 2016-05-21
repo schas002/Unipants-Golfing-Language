@@ -1,11 +1,15 @@
 * {
-	font-family: monospace;
+	font-family: sans-serif;
 }
 
 html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+}
+
+body {
+	margin: 0 40px;
 }
 
 body {
@@ -36,7 +40,8 @@ button {
 	display: block;
 }
 
-textarea {
+textarea:not(#permalink) {
+	font-family: monospace;
 	flex: 1 0 auto;
 	width: 100%;
 	border: none;
@@ -45,12 +50,17 @@ textarea {
 	padding: 0;
 }
 
-textarea:-moz-read-only {
+#permalink {
+	border: none;
+	width: 80%;
+}
+
+textarea:not(#permalink):-moz-read-only {
 	background: #F8F8F8;
 	color: #888;
 }
 
-textarea:read-only {
+textarea:not(#permalink):read-only {
 	background: #F8F8F8;
 	color: #888;
 }
@@ -65,7 +75,7 @@ label, select {
 }
 
 #popup-border {
-	margin: 0;
+	left: 0;
 	top: 0;
 	width: 100%;
 	padding: 0 auto;
