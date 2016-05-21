@@ -68,7 +68,7 @@ cu%?%d%:_ #6 2 3 "true"\n\
 ?coc$d$$: #print false; return -1\n\
 __ #else: 6 2\n\
 ^d^-:_ #while not equal\n\
-u? #if stack.pop() != -1:\n\\n\
+u? #if stack.pop() != -1:\n\
 cuo: #print true|43'
 	}),
 	Type = Object.freeze({
