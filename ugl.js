@@ -76,7 +76,7 @@ cuo: #print true|43'
 		WHILE: 1
 	})
 
-for (let i in ACTIONS) 
+for (let i in ACTIONS)
 	ACTIONS.hasOwnProperty(i) && ACTION_KEYS.push(i);
 
 function ugl(code, finput) {
@@ -178,25 +178,4 @@ function nest(code) {
 		}
 	}
 	return newcode;
-}
-
-function loadExamples($el) {
-	for (prop in EXAMPLES) {
-		if (EXAMPLES.hasOwnProperty(prop)) {
-			let option = document.createElement('option');
-			option.value = EXAMPLES[prop];
-			option.innerText = prop.replace(/_/g, ' ');
-			$el.appendChild(option);
-		}
-	}
-}
-
-//from http://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
-function copy(text) {
-	var range,
-		selection;	
-	if (text.select) {
-		text.select();
-		document.execCommand('copy');
-	}
 }
