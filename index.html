@@ -36,6 +36,7 @@
 		<textarea id="sanitized" readonly="true"></textarea>
 		<div><h3 class="inline-flex">Output</h3><span class="copy" onclick="copy(document.getElementById('output'))"></span></div>
 		<textarea id="output" readonly="true"></textarea>
+		<div><button onclick="create_permalink()">Create permalink</button><span id="permalink">Permalink will show up here</span></div>
 		<div id="popup-border" style="display:none">
 			<div id="popup">
 				<button class="close" onclick="document.getElementById('popup-border').style.display='none'">x</button>
@@ -93,6 +94,12 @@
 			if(cTemp !== null) document.getElementById("code").value = cTemp;
 			iTemp = getURIParameter("input");
 			if(iTemp !== null) document.getElementById("input").value = iTemp;
+			function create_permalink() {
+				plink = "http://schas002.github.io/Unipants-Golfing-Language?code="
+				      + document.getElementById("code").value
+				      + "&input=" + document.getElementById("input").value;
+				document.getElementById("permalink").innerHTML = plink;
+			}
 		</script>
 	</body>
 </html>
