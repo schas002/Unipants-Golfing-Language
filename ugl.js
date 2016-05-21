@@ -76,73 +76,8 @@ cuo: #print true|43'
 		WHILE: 1
 	})
 
-function decode(string) {
-	return decodeURIComponent(escape(atob(unescape(string).replace(/-/g, "+").replace(/_/g, "/"))));
-}
-
-function encode(string) {
-	return btoa(unescape(encodeURIComponent(string))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
-}
-
-function loadPermalink($code, $input) {
-	var data = (window.location.href.split('?')[1] || '').split('&'),
-		obj = {};
-	for (var i = 0; i < data.length; i++) {
-		var pair = data[i].split('=');
-		obj[pair[0]] = pair[1];
-	}
-	$code.value = decode(obj.code || '');
-	$input.value = decode(obj.input || '');
-}
-
-function getPermalink(code, input) {
-	return window.location.href.split('?')[0] + '?code=' + encode(code) + '&input=' + encode(input);
-}
-
 for (let i in ACTIONS) 
 	ACTIONS.hasOwnProperty(i) && ACTION_KEYS.push(i);
-
-/*var alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
-	operators = ['iIoOc_ud=+-/$%@^rRs'], //asterisk3 slash
-	latest = operators[operators.length - 1];
-
-function load(cc) {
-	var href = {};
-	document.location.href.split('?').slice(-1)[0].split('#')[0].split('&').map(s=>s.split('=')).forEach(function(_) {
-		href[_[0]]=_[1];
-	});
-	href = {
-		c: cc,
-		v: 0
-	}
-	let code = href.c,
-		decoded = '',
-		decoder = operators[href.v],
-		len = decoder.length;
-	codehash = Array.from(code).reduce(function(p,c) {return p*62 + alphabet.indexOf(c)}, 0);
-	decoded = decoder[codehash%len];
-	codehash = ~~(codehash/len);
-	while(codehash) {
-		decoded = decoder[(codehash-1)%len] + decoded;
-		codehash = ~~(codehash/len);
-	}
-	return {
-		code: decoded
-	};
-}
-
-function save(code) {
-	let codehash = Array.from(code).reduce(function(p,c) {return p*latest.length + (latest.indexOf(c) + 1)}, 0) - 1,
-		encoded = '';
-	do {
-		encoded = alphabet[codehash%62] + encoded;
-		codehash = ~~(codehash/62);
-	} while (codehash);
-	return {
-		c: encoded,
-		v: operators.length - 1
-	};
-}*/
 
 function ugl(code, finput) {
 	if (!code || !code.length) return ['', 'Error: No code'];
