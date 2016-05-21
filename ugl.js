@@ -60,7 +60,7 @@ uO                # !\
 		Prime_Checker: '\
 i$\n\
 cu #6 1\n\
-^d^-l #while not equal\n\ 
+^d^-l #while not equal\n\
 _ #6 1\n\
 u #6 2\n\
 ^^/% #6 2 3 0\n\
