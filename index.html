@@ -5,7 +5,9 @@
 		<script src="ugl.js"></script>
 		<link rel="stylesheet" href="style.css">
 	</head>
-	<body onload="loadExamples(document.getElementById('examples')); document.getElementById('strict_mode').checked=localStorage.getItem('strict') === '0' ? false : true">
+	<body onload="loadExamples(document.getElementById('examples'));
+		document.getElementById('strict_mode').checked=localStorage.getItem('strict') === '0' ? false : true;
+		loadPermalink(document.getElementById('code'), document.getElementById('input'))">
 		<button onclick="document.getElementById('popup-border').style.display='block'">Help</button>
 		<h3>Code</h3>
 		<div>
@@ -21,7 +23,9 @@
 		<textarea id="input"></textarea>
 		<button onclick="document.getElementById('output').value='';
 			[document.getElementById('sanitized').value, document.getElementById('output').value]=ugl(document.getElementById('code').value, document.getElementById('input').value);
-			document.getElementById('sanitized_bytecount').innerHTML = document.getElementById('sanitized').value.length">Run!</button>
+			document.getElementById('sanitized_bytecount').innerHTML = document.getElementById('sanitized').value.length;
+			document.getElementById('permalink').href = document.getElementById('_permalink').value = getPermalink(document.getElementById('code').value, document.getElementById('input').value);
+			">Run!</button>
 		<div>
 			Strict mode: 
 			<input id="strict_mode" type="checkbox" onchange="localStorage.setItem('strict', event.target.checked ? '1' : '0');Strict=event.target.checked"></div>
@@ -34,6 +38,7 @@
 		<div><h3 class="inline-flex">Sanitized</h3><span class="copy" onclick="copy(document.getElementById('sanitized'))"></span></div>
 		<div><span id="sanitized_bytecount">0</span> bytes</div>
 		<textarea id="sanitized" readonly="true"></textarea>
+		<div><h3 class="inline-flex"><a id="permalink" href="">Permalink</a></h3><span class="copy" onclick="copy(document.getElementById('_permalink'))"></span><textarea id="_permalink" style="height: 1px; width: 1px;"></textarea></div>
 		<div><h3 class="inline-flex">Output</h3><span class="copy" onclick="copy(document.getElementById('output'))"></span></div>
 		<textarea id="output" readonly="true"></textarea>
 		<div id="popup-border" style="display:none">
