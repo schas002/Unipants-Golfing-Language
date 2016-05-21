@@ -42,34 +42,34 @@ var handle, iter, stack, nested, cond, input, index, returns, temp, rindex,
 		Fancy_Fibonacci: 'ccui$Rl_$ocuu$$*$**O%^+rd$R:|5',
 		Ackermann: 'iiRuldr%l%lR$d%rd:u%d:%+uRu:ro|2\n5',
 		Truth_Machine: 'i?l$o::c=?do:|1',
-		Hello_World: `\
-cuu$$$$$u$$@****O # H
-@+*$*$u$O         # e
-cuu$$**d+$$OO     # ll
-$uuu$$$$O         # o
-cuu$$$$****$      # create ' '
-cuu$$u**+O        # ,
-$@O_              # ' ', add ' ' to end
-cuu$$$u***-O	  # W
-O                 # o
-uuuO              # r
-O                 # l
-O                 # d
+		Hello_World: '\
+cuu$$$$$u$$@****O # H\n\
+@+*$*$u$O         # e\n\
+cuu$$**d+$$OO     # ll\n\
+$uuu$$$$O         # o\n\
+cuu$$$$****$      # create \' \'\n\
+cuu$$u**+O        # ,\n\
+$@O_              # \' \', add \' \' to end\n\
+cuu$$$u***-O	  # W\n\
+O                 # o\n\
+uuuO              # r\n\
+O                 # l\n\
+O                 # d\n\
 uO                # !\
-|`,
-		Prime_Checker: `\
-i$ 
-cu #6 1 
-^d^-l #while not equal 
-_ #6 1 
-u #6 2 
-^^/% #6 2 3 0 
-cu%?%d%:_ #6 2 3 "true" 
-?coc$d$$: #print false; return -1 
-__ #else: 6 2 
-^d^-:_ #while not equal 
-u? #if stack.pop() != -1: 
-cuo: #print true|43`
+|',
+		Prime_Checker: '\
+i$\n\
+cu #6 1\n\
+^d^-l #while not equal\n\ 
+_ #6 1\n\
+u #6 2\n\
+^^/% #6 2 3 0\n\
+cu%?%d%:_ #6 2 3 "true"\n\
+?coc$d$$: #print false; return -1\n\
+__ #else: 6 2\n\
+^d^-:_ #while not equal\n\
+u? #if stack.pop() != -1:\n\\n\
+cuo: #print true|43'
 	}),
 	Type = Object.freeze({
 		IF: 0,
