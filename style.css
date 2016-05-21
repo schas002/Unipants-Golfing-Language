@@ -46,12 +46,6 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
-
-body {
-	display: flex;
-	flex-flow: column nowrap;
-}
-
 h1, h2, h3, h4, h5, h6 {
 	margin: 10px 0;
 	padding: 0;
