@@ -36,7 +36,7 @@
 		<textarea id="sanitized" readonly="true"></textarea>
 		<div><h3 class="inline-flex">Output</h3><span class="copy" onclick="copy(document.getElementById('output'))"></span></div>
 		<textarea id="output" readonly="true"></textarea>
-		<div><button onclick="create_permalink()">Create permalink</button><span id="permalink">Permalink will show up here</span></div>
+		<div><button onclick="create_permalink()">Create permalink</button><span id="permalink">Permalink will show up here</span><span class="copy" onclick="copy(document.getElementById('permalink'))"></span></div></div>
 		<div id="popup-border" style="display:none">
 			<div id="popup">
 				<button class="close" onclick="document.getElementById('popup-border').style.display='none'">x</button>
@@ -90,14 +90,20 @@
 			function getURIParameter(name) {
 			  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 			  }
+			function decode(string) {
+				return decodeURIComponent(escape(atob(unescape(string).replace(/-/g, "+").replace(/_/g, "/"))));
+			}
+			function encode(string) {
+				return btoa(unescape(encodeURIComponent(string))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+			}
 			cTemp = getURIParameter("code");
-			if(cTemp !== null) document.getElementById("code").value = cTemp;
+			if(cTemp !== null) document.getElementById("code").value = decode(cTemp);
 			iTemp = getURIParameter("input");
-			if(iTemp !== null) document.getElementById("input").value = iTemp;
+			if(iTemp !== null) document.getElementById("input").value = decode(iTemp);
 			function create_permalink() {
-				plink = "http://schas002.github.io/Unipants-Golfing-Language?code="
-				      + document.getElementById("code").value
-				      + "&input=" + document.getElementById("input").value;
+				plink = "http://schas002.github.io/Unipants-Golfing-Language/?code="
+				      + encode(document.getElementById("code").value)
+				      + "&input=" + encode(document.getElementById("input").value);
 				document.getElementById("permalink").innerHTML = plink;
 			}
 		</script>
