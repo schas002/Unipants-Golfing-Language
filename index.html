@@ -88,5 +88,16 @@
 				</pre>
 			</div>
 		</div>
+		<script>
+			// minxomat's wonderful getURIParameter function
+			// http://www.minxomat.space/taking-request-parameters-on-an-html-file
+			function getURIParameter(name) {
+			  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+			  }
+			cTemp = getURIParameter("code");
+			if(cTemp !== null) document.getElementById("code").value = cTemp;
+			iTemp = getURIParameter("input");
+			if(iTemp !== null) document.getElementById("input").value = iTemp;
+		</script>
 	</body>
 </html>
