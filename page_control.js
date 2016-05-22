@@ -46,10 +46,10 @@ function openOptionsPanel(event){
 	if (event.target.value){
 		var parts = event.target.value.split('|');
 		var code = document.getElementById('code');
-		code.innerHTML  = parts[0];
+		code.innerText  = parts[0];
 		adjustByteCount();
 		var input = document.getElementById('input');
-		input.innerHTML = parts[1];
+		input.innerText = parts[1];
 		adjustInputByteCount();
 	}
 }
