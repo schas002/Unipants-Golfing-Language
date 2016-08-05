@@ -85,7 +85,7 @@ function runCode(){
 	var byteCount = document.getElementById('sanitized_bytecount');
 	var codeExecutionValues = ugl(code.innerText, input.innerText);
 	sanitized.innerHTML = codeExecutionValues[0];
-	output.innerHTML = codeExecutionValues[1];
+	output.innerHTML = codeExecutionValues[1].replace(/\n/g, '<br />');
 	byteCount.innerHTML = sanitized.innerText.length;
 }
 window.onload = function(){
